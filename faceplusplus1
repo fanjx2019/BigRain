@@ -1,0 +1,35 @@
+# -*- coding: utf-8 -*-
+import urllib.request
+import urllib.error
+import time
+
+http_url = 'https://api-cn.faceplusplus.com/facepp/v3/detect'
+key = "Dk5N0X_-v92eS2XibV6LmNuwiJ9ExCYb"
+secret = "oHoIF-qTFR9yfbX8yQeoGgY5PDRQHkVd"
+filepath = r"E:/Desktop/fff.jpg"
+
+
+boundary = '----------%s' % hex(int(time.time() * 1000))
+data = []
+data.append('--%s' % boundary)
+data.append('Content-Disposition: form-data; name="%s"\r\n' % 'api_key')
+data.append(key)
+data.append('--%s' % boundary)
+data.append('Content-Disposition: form-data; name="%s"\r\n' % 'api_secret')
+data.append(secret)
+data.append('--%s' % boundary)
+fr = open(filepath, 'rb')
+data.append('Content-Disposition: form-data; name="%s"; filename=" "' % 'image_file')
+data.append('Content-Type: %s\r\n' % 'application/octet-stream')
+data.append(fr.read())
+fr.close()
+data.append('--%s' % boundary)
+data.append('Content-Disposition: form-data; name="%s"\r\n' % 'return_landmark')
+data.append('1')
+data.append('--%s' % boundary)
+data.append('Content-Disposition: form-data; name="%s"\r\n' % 'return_attributes')
+data.append(
+    "gender,age,smiling,headpose,facequality,blur,eyestatus,emotion,ethnicity,beauty,mouthstatus,eyegaze,skinstatus")
+data.append('--%s--\r\n' % boundary)
+
+print(data)
